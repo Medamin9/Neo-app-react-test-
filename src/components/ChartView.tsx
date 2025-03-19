@@ -12,6 +12,7 @@ import {
 import { PulseLoader } from 'react-spinners';
 import { fetchNEOData } from '../Services/api';
 
+// Define the type for NEO (Near Earth Object) data
 type NeoData = {
   name: string;
   min_diameter: number;
@@ -19,15 +20,26 @@ type NeoData = {
 };
 
 const ChartView = () => {
+
+  // State to store the fetched NEO data
   const [data, setData] = useState<NeoData[]>([]);
+
+  // State to manage loading state while fetching data
   const [loading, setLoading] = useState(false);
+
+  // State to handle and display any fetching errors
   const [error, setError] = useState('');
 
+
+  // Fetch NEO data when the component is mounted
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // Fetch data from the API
         const response = await fetchNEOData();
+
+         // Format the raw data to match the chart's expected format
         const formattedData = response.near_earth_objects.map((obj: any) => ({
           name: obj.name,
           min_diameter: obj.estimated_diameter.kilometers.estimated_diameter_min,
@@ -35,6 +47,7 @@ const ChartView = () => {
         }));
         setData(formattedData);
       } catch (error) {
+        // Handle error if the data fetching fails
         setError('Failed to load data');
       } finally {
         setLoading(false);
@@ -43,7 +56,8 @@ const ChartView = () => {
 
     fetchData();
   }, []);
-
+  
+  // Display a loading spinner while data is being fetched
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
