@@ -11,12 +11,14 @@ import {
 } from 'recharts';
 import { PulseLoader } from 'react-spinners';
 import { fetchNEOData } from '../Services/api';
+import OrbitalFilter from './OrbitalFilter';
 
 // Define the type for NEO (Near Earth Object) data
 type NeoData = {
   name: string;
   min_diameter: number;
   max_diameter: number;
+  orbiting_body: string;
 };
 
 const ChartView = () => {
@@ -30,7 +32,10 @@ const ChartView = () => {
   // State to handle and display any fetching errors
   const [error, setError] = useState('');
 
-
+  const [filteredData, setFilteredData] = useState<NeoData[]>([]);
+  const [selectedBody, setSelectedBody] = useState<string>('');
+  const [orbitalBodies, setOrbitalBodies] = useState<string[]>([]);
+  
   // Fetch NEO data when the component is mounted
   useEffect(() => {
     const fetchData = async () => {
@@ -44,8 +49,16 @@ const ChartView = () => {
           name: obj.name,
           min_diameter: obj.estimated_diameter.kilometers.estimated_diameter_min,
           max_diameter: obj.estimated_diameter.kilometers.estimated_diameter_max,
+          orbiting_body: obj.close_approach_data[0]?.orbiting_body || "Unknown",
         }));
         setData(formattedData);
+        setFilteredData(formattedData);
+        // Get unique orbital bodies
+        const bodies: string[] = Array.from(
+          new Set<string>(formattedData.map((neo: NeoData) => neo.orbiting_body))
+        );
+        setOrbitalBodies(bodies);
+
       } catch (error) {
         // Handle error if the data fetching fails
         setError('Failed to load data');
@@ -53,10 +66,19 @@ const ChartView = () => {
         setLoading(false);
       }
     };
-
+    
     fetchData();
   }, []);
-  
+
+  const handleFilterChange = (value: string) => {
+    setSelectedBody(value);
+    if (value === '') {
+      setFilteredData(data);
+    } else {
+      setFilteredData(data.filter((neo) => neo.orbiting_body === value));
+    }
+  };
+
   // Display a loading spinner while data is being fetched
   if (loading) {
     return (
@@ -66,13 +88,14 @@ const ChartView = () => {
     );
   }
 
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (error) return <div className="text-red-500 h-screen flex justify-center items-center text-2xl font-bold">{error}</div>;
 
   return (
     <div className="p-4">
+      <OrbitalFilter orbitalBodies={orbitalBodies} selectedBody={selectedBody} onFilterChange={handleFilterChange} />
       <ResponsiveContainer width="100%" height={700}>
         <BarChart
-          data={data}
+          data={filteredData}
           layout="vertical"
           margin={{ top: 20, right: 30, left: 80, bottom: 5 }}
         >
