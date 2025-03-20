@@ -40,13 +40,13 @@ The app provides an interactive interface with:
 ```bash
 git clone https://github.com/Medamin9/Neo-app-react-test-.git
 cd neo-dashboard
-```bash
+
 ### **2. Install Dependencies**
 ```bash
 npm install
-```bash
+
 
 ### **3. Start the Development Server**
 ```bash
 npm run dev 
-```bash
+
