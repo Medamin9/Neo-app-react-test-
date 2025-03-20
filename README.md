@@ -1,5 +1,3 @@
-# Neo-app-react-test-
-
 # 🌍 NEO Dashboard - React + TypeScript + PrimeReact + TailwindCSS
 
 ## 🚀 Project Overview
@@ -40,13 +38,13 @@ The app provides an interactive interface with:
 ```bash
 git clone https://github.com/Medamin9/Neo-app-react-test-.git
 cd neo-dashboard
-
+```
 ### **2. Install Dependencies**
 ```bash
 npm install
-
+```
 
 ### **3. Start the Development Server**
 ```bash
 npm run dev 
-
+```
