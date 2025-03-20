@@ -2,7 +2,7 @@ import './App.css'
 import ChartView from './components/ChartView'
 
 
-// Main App component
+
 function App() {
   return (
     <>
