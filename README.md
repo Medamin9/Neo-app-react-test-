@@ -30,7 +30,7 @@ The app provides an interactive interface with:
 ✅ Switch between chart and table view. 
 ✅ Filter data based on orbital body.  
 ✅ Responsive layout with smooth height transitions.   
-✅ Export data to CSV using **PapaParse*
+✅ Export data to CSV using **PapaParse**.
 ---
 
 
@@ -40,12 +40,13 @@ The app provides an interactive interface with:
 ```bash
 git clone https://github.com/Medamin9/Neo-app-react-test-.git
 cd neo-dashboard
-
+```bash
 ### **2. Install Dependencies**
 ```bash
 npm install
-
+```bash
 
 ### **3. Start the Development Server**
 ```bash
 npm run dev 
+```bash
