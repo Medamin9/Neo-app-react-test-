@@ -1,5 +1,6 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import "../App.css";
 // type for NEO data
 type NeoData = {
   name: string;
@@ -17,6 +18,8 @@ const TableView = ({ data }: { data: NeoData[] }) => {
         rows={10}
         stripedRows // Alternating row background for better readability
         responsiveLayout="scroll" // Enables horizontal scrolling on small screens
+        paginatorTemplate="PrevPageLink PageLinks NextPageLink" 
+        className="custom-pagination"
       >
         <Column field="name" header="NEO Name" sortable></Column>
         <Column
