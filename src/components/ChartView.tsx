@@ -124,7 +124,8 @@ const ChartView = () => {
       {viewMode === "chart" ? (
         <ResponsiveContainer
           width="100%"
-          height={Math.max(200, Math.min(data.length * 40, 600))}
+          height={filteredData.length > 3 ? 600 : 300}
+          className="transition-all duration-500"
         >
           <BarChart
             data={filteredData}

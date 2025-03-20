@@ -6,3 +6,18 @@
   text-align: center;
 }
 
+/* Active page number color */
+.custom-pagination .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: #4caf50; /* Green background */
+  color: #ffffff; /* White text */
+  border-radius: 6px; /* Optional: Rounded corners */
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+/* Hover effect for page buttons */
+.custom-pagination .p-paginator .p-paginator-pages .p-paginator-page:hover {
+  background-color: #e0e0e0;
+}
+
