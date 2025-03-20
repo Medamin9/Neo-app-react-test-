@@ -12,6 +12,8 @@ import {
 import { PulseLoader } from 'react-spinners';
 import { fetchNEOData } from '../Services/api';
 import OrbitalFilter from './OrbitalFilter';
+import TableView from './TableView';
+import SwitchButton from './SwitchButton';
 
 // Define the type for NEO (Near Earth Object) data
 type NeoData = {
@@ -36,6 +38,9 @@ const ChartView = () => {
   const [selectedBody, setSelectedBody] = useState<string>('');
   const [orbitalBodies, setOrbitalBodies] = useState<string[]>([]);
   
+  const [viewMode, setViewMode] = useState<'chart' | 'table'>('chart');
+
+
   // Fetch NEO data when the component is mounted
   useEffect(() => {
     const fetchData = async () => {
@@ -51,9 +56,12 @@ const ChartView = () => {
           max_diameter: obj.estimated_diameter.kilometers.estimated_diameter_max,
           orbiting_body: obj.close_approach_data[0]?.orbiting_body || "Unknown",
         }));
+
+        // Store formatted data and also prepare filtered data
         setData(formattedData);
         setFilteredData(formattedData);
-        // Get unique orbital bodies
+
+        //Extract unique orbital bodies for filtering
         const bodies: string[] = Array.from(
           new Set<string>(formattedData.map((neo: NeoData) => neo.orbiting_body))
         );
@@ -70,6 +78,7 @@ const ChartView = () => {
     fetchData();
   }, []);
 
+  // Handle filtering based on the selected orbital body
   const handleFilterChange = (value: string) => {
     setSelectedBody(value);
     if (value === '') {
@@ -87,13 +96,22 @@ const ChartView = () => {
       </div>
     );
   }
-
+  // If there's an error, display the error message
   if (error) return <div className="text-red-500 h-screen flex justify-center items-center text-2xl font-bold">{error}</div>;
 
   return (
     <div className="p-4">
+    {/* Orbital filter component for selecting orbital body */}  
       <OrbitalFilter orbitalBodies={orbitalBodies} selectedBody={selectedBody} onFilterChange={handleFilterChange} />
-      <ResponsiveContainer width="100%" height={700}>
+
+      {/* Switch button to toggle between chart and table view */}
+      <div className="flex justify-center mb-4">
+        <SwitchButton viewMode={viewMode} setViewMode={setViewMode} />
+      </div>
+
+       {/* Render either a chart or a table based on the selected view mode */}
+      { viewMode === 'chart' ? (
+      <ResponsiveContainer width="100%" height={Math.max(200, Math.min(data.length * 40, 600))}>
         <BarChart
           data={filteredData}
           layout="vertical"
@@ -143,6 +161,10 @@ const ChartView = () => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+      ) : (
+        <TableView data={filteredData} />
+      )
+      }
     </div>
   );
 };
