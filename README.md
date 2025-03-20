@@ -1,4 +1,4 @@
-# 🌍 NEO Dashboard - React + TypeScript + PrimeReact + TailwindCSS
+# 🌍 NEO Dashboard - React + TypeScript + TailwindCSS
 
 ## 🚀 Project Overview
 **NEO Dashboard** is a web application that visualizes data about Near-Earth Objects (NEOs) using NASA's NeoWs API.  
